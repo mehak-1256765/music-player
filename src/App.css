@@ -1,38 +1,231 @@
-.App {
-  text-align: center;
+:root {
+  --mainColor: #fff;
+  --mainLightColor: rgba(235, 235, 235, 0.5);
+  --mainDimColor: rgb(228, 228, 228);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.container {
   min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--mainColor);
+  font-family: 'Poppins', sans-serif;
+}
+
+.backgroundVideo {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  object-fit: cover;
+  height: 100vh;
+  z-index: -1;
+  filter: saturate(2.5);
+}
+
+.blackScreen {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  pointer-events: none;
+  background-color: rgba(17, 17, 17, 0.2);
+}
+
+.musicContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  width: 85%;
+  max-width: 1000px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.playerSection {
+  flex: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+.songListSection {
+  flex: 1;
+  background: rgba(20, 20, 20, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  overflow-y: auto;
+  max-height: 400px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.songListSection h3 {
+  color: var(--mainColor);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.songList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.songListItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+  background: rgba(50, 50, 50, 0.5);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.songListItem:hover {
+  background: rgba(100, 100, 100, 0.7);
+  transform: scale(1.02);
+}
+
+.songListItem.activeSong {
+  background: rgba(0, 200, 150, 0.5);
+  border-left: 4px solid var(--mainColor);
+}
+
+.songListItem img {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.songListItem div {
+  display: flex;
+  flex-direction: column;
+}
+
+.songListItem p {
+  margin: 0;
+  color: var(--mainColor);
+  font-size: 14px;
+}
+
+.songListItem p:first-child {
+  font-weight: 600;
+}
+
+.songListItem p:last-child {
+  font-weight: 400;
+  color: var(--mainDimColor);
+}
+
+.musicPlayer {
+  margin: 0;
+  margin-bottom: 10px;
+  color: var(--mainLightColor);
+}
+
+.musicHeadName {
+  margin: 0 auto;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.musicArtistName {
+  color: var(--mainDimColor);
+  margin: 4px 0;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.songAvatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin: 18px 0;
+  position: relative;
+  cursor: pointer;
+  animation: animateAvatar 0.5s linear infinite;
+}
+
+@keyframes animateAvatar {
+  0%, 100% {
+      transform: scale(1);
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+      transform: scale(1.03);
   }
+}
+
+.musicTimerDiv {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-weight: 600;
+}
+
+.musicProgressBar {
+  width: 100%;
+  margin-bottom: 16px;
+  height: 10px;
+  border-radius: 5px;
+  outline: none;
+  filter: hue-rotate(20deg);
+}
+
+.playBtn {
+  font-size: 32px;
+  margin: 8px 10px;
+  color: var(--mainColor);
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.musicControler {
+  cursor: pointer;
+  font-size: 28px;
+  color: var(--mainColor);
+}
+
+.changeBackBtn {
+  width: 200px;
+  height: 15px;
+  background-color: #eee;
+  position: absolute;
+  border-radius: 12px 12px 0 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  transition: 0.3s;
+  color: #eee;
+  cursor: pointer;
+  padding: 3px 0 0 0;
+  font-weight: 600;
+  text-align: center;
+}
+
+.changeBackBtn:hover {
+  height: 30px;
+  color: #222;
+}
+
+.objectFitCover {
+  object-fit: cover;
+}
+
+.objectFitContain {
+  object-fit: contain;
 }
