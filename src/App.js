@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 
@@ -18,7 +18,8 @@ function App() {
   const [videoIndex, setVideoIndex] = useState(0);
   const currentAudio = useRef();
 
-  const musicAPI = [
+  // Memoize the musicAPI array to prevent recreation on each render
+  const musicAPI = useMemo(() => [
     {
       songName: 'Chasing',
       songArtist: 'NEFFEX',
@@ -55,7 +56,7 @@ function App() {
       songSrc: './Assets/Songs/Starboy ft. Daft Punk.mp3',
       songAvatar: './Assets/Images/image10.jpg',
     },
-  ];
+  ], []); // Empty dependency array ensures the array is only computed once
 
   const vidArray = [
     './Assets/Videos/Video1.mp4',
@@ -63,8 +64,12 @@ function App() {
     './Assets/Videos/Video3.mp4',
   ];
 
-  // Memoizing the updateCurrentMusicDetails function
-  const updateCurrentMusicDetails = useCallback((index) => {
+  useEffect(() => {
+    // When the song index changes, update the audio source and play it
+    updateCurrentMusicDetails(musicIndex);
+  }, [musicIndex]);
+
+  const updateCurrentMusicDetails = (index) => {
     const music = musicAPI[index];
     currentAudio.current.src = music.songSrc;
     setCurrentMusicDetails({
@@ -73,12 +78,7 @@ function App() {
       songSrc: music.songSrc,
       songAvatar: music.songAvatar,
     });
-  }, [musicAPI]); // Dependency on musicAPI to keep it updated if musicAPI changes
-
-  useEffect(() => {
-    // When the song index changes, update the audio source and play it
-    updateCurrentMusicDetails(musicIndex);
-  }, [musicIndex, updateCurrentMusicDetails]); // Add updateCurrentMusicDetails to dependency array
+  };
 
   const handleNextSong = () => {
     const nextIndex = (musicIndex + 1) % musicAPI.length;
