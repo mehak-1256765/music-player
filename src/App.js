@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 
@@ -63,7 +63,8 @@ function App() {
     './Assets/Videos/Video3.mp4',
   ];
 
-  const updateCurrentMusicDetails = (index) => {
+  // Memoizing the updateCurrentMusicDetails function
+  const updateCurrentMusicDetails = useCallback((index) => {
     const music = musicAPI[index];
     currentAudio.current.src = music.songSrc;
     setCurrentMusicDetails({
@@ -72,12 +73,12 @@ function App() {
       songSrc: music.songSrc,
       songAvatar: music.songAvatar,
     });
-  };
+  }, [musicAPI]); // Dependency on musicAPI to keep it updated if musicAPI changes
 
   useEffect(() => {
     // When the song index changes, update the audio source and play it
     updateCurrentMusicDetails(musicIndex);
-  }, [musicIndex]); // `updateCurrentMusicDetails` doesn't need to be a dependency
+  }, [musicIndex, updateCurrentMusicDetails]); // Add updateCurrentMusicDetails to dependency array
 
   const handleNextSong = () => {
     const nextIndex = (musicIndex + 1) % musicAPI.length;
